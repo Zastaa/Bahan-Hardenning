@@ -1,0 +1,1 @@
+alert tcp any any -> any 22 (msg: "SSH Bruteforce Attack Detected"; flags: S+;  threshold: type both, track by_src, count 15, seconds 5; sid:10000404; rev:1;)
