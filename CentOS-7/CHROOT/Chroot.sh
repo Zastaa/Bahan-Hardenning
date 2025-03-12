@@ -9,6 +9,7 @@ useradd ${jailUser}
 echo "${jailUser}:${pw}" | sudo chpasswd
 groupadd ${groupSftp}
 useradd ${jailSftpUser} -g ${groupSftp} -s /bin/false
+echo "${jailSftpUser}:${pw}" | sudo chpasswd
 usermod -aG ${groupSftp} ${jailSftpUser}
 
 mkdir /jail
