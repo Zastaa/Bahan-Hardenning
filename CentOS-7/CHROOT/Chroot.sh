@@ -21,3 +21,11 @@ cp /lib64/{libtinfo.so.5,libc.so.6,libdl.so.2,ld-linux-x86-64.so.2,libselinux.so
 
 echo "PS1='${jailUser}@server $: '" >> /jail/etc/profile
 echo "export PATH=/bin:/usr/bin:/sbin:/usr/sbin" >> /jail/etc/profile
+echo "Banner /etc/banner" >> /etc/ssh/sshd_config
+echo "Match User ${jailUser}" >> /etc/ssh/sshd_config
+echo "ChrootDirectory /jail" >> /etc/ssh/sshd_config
+echo "Match Group ${groupSftp}" >> /etc/ssh/sshd_config
+echo "ChrootDirectory /jail" >> /etc/ssh/sshd_config
+echo "ForceCommand internal-sftp" >> /etc/ssh/sshd_config
+echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config
+echo "X11Forwarding no" >> /etc/ssh/sshd_config
