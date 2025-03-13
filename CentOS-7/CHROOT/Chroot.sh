@@ -1,5 +1,22 @@
 #!/bin/bash
 
+library64="{libtinfo.so.5,libc.so.6,libdl.so.2,ld-linux-x86-64.so.2,libselinux.so.1,libcap.so.2,libacl.so.1,libpcre.so.1,libattr.so.1,libpthread.so.0}"
+
+while getopts "v9:v8:h" opt; do
+  case $opt in
+    v9) library64="{libtinfo.so.6,libc.so.6,ld-linux-x86-64.so.2,libselinux.so.1,libcap.so.2,libpcre2-8.so.0}" ;;
+    v8) library64="{libtinfo.so.5,libc.so.6,libdl.so.2,ld-linux-x86-64.so.2,libselinux.so.1,libcap.so.2,libacl.so.1,libpcre.so.1,libattr.so.1,libpthread.so.0}" ;;
+    h)
+      echo "Yang Bener Bang pakainya, ada dua opsi -v9 dan -v8"
+      exit 0
+      ;;
+    ?)
+      echo "Invalid Options BROWWW!"
+      exit 1
+      ;;
+  esac
+done
+
 jailUser="jumbo"
 jailSftpUser="sftp_user"
 groupSftp="sftp_group"
@@ -18,7 +35,7 @@ chown -R ${jailUser}:${jailUser} /jail/home/${jailUser}
 chown -R :${groupSftp} /jail/home/${jailUser}/sftp
 cp /etc/{bashrc,profile} /jail/etc/
 cp /bin/{bash,ls,echo,mkdir,pwd} /jail/bin/
-cp /lib64/{libtinfo.so.5,libc.so.6,libdl.so.2,ld-linux-x86-64.so.2,libselinux.so.1,libcap.so.2,libacl.so.1,libpcre.so.1,libattr.so.1,libpthread.so.0} /jail/lib64/
+cp /lib64/${library64} /jail/lib64/
 
 echo "PS1='${jailUser}@server $: '" >> /jail/etc/profile
 echo "export PATH=/bin:/usr/bin:/sbin:/usr/sbin" >> /jail/etc/profile
