@@ -2,7 +2,7 @@
 
 library64="libtinfo.so.5 libc.so.6 libdl.so.2 ld-linux-x86-64.so.2 libselinux.so.1 libcap.so.2 libacl.so.1 libpcre.so.1 libattr.so.1 libpthread.so.0"
 
-while getopts "s:d:h" opt; do
+while getopts "sdh" opt; do
   case $opt in
     s) library64="libtinfo.so.6 libc.so.6 ld-linux-x86-64.so.2 libselinux.so.1 libcap.so.2 libpcre2-8.so.0" ;;
     d) library64="libtinfo.so.5 libc.so.6 libdl.so.2 ld-linux-x86-64.so.2 libselinux.so.1 libcap.so.2 libacl.so.1 libpcre.so.1 libattr.so.1 libpthread.so.0" ;;
