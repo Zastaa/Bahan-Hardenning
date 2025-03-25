@@ -18,6 +18,8 @@ mysql -u root -e "create user 'kampak'@'localhost' identified by 'kampak123'"
 mysql -u root -e "grant all on dvwa.* to 'kampak'@'localhost'"
 mysql -u root -e "flush privileges"
 
+setsebool -P httpd_can_network_connect_db 1
+
 cat << EOF > DVWA/config/config.inc.php
 <?php
 
@@ -76,8 +78,6 @@ define ('SQLITE', 'sqlite');
 
 ?>
 EOF
-
-setsebool -P httpd_can_network_connect_db 1
 
 systemctl restart httpd
 systemctl restart mariadb
