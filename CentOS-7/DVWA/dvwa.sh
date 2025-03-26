@@ -7,6 +7,7 @@ echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
 firewall-cmd --add-port=80/tcp --permanent
 firewall-cmd --add-port=1194/udp --permanent
 firewall-cmd --add-service=openvpn --permanent
+firewall-cmd --add-service=http --permanent
 firewall-cmd --remove-service=dhcpv6-client --permanent
 firewall-cmd --remove-service=cockpit --permanent
 firewall-cmd --reload
