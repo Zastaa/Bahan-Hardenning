@@ -13,6 +13,9 @@ firewall-cmd --reload
 
 git clone https://github.com/digininja/DVWA.git
 
+systemctl restart mariadb
+systemctl enable --now mariadb
+
 mysql -u root -e "create database dvwa"
 mysql -u root -e "create user 'kampak'@'localhost' identified by 'kampak123'"
 mysql -u root -e "grant all on dvwa.* to 'kampak'@'localhost'"
