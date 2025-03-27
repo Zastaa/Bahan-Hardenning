@@ -4,7 +4,7 @@ cd /usr/local/src
 
 wget https://snort.org/downloads/snort/snort-openappid-2.9.20-1.centos.x86_64.rpm
 
-yum install snort-openappid-2.9.20-1.centos.x86_64.rpm
+yum install snort-openappid-2.9.20-1.centos.x86_64.rpm -y
 
 sudo ln -s /usr/lib64/libdnet.so /usr/lib64/libdnet.1
 
