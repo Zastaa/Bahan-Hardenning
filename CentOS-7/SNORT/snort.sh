@@ -11,8 +11,8 @@ sudo ln -s /usr/lib64/libdnet.so /usr/lib64/libdnet.1
 mkdir /usr/local/lib/snort_dynamicrules
 
 sed -i '/include $RULE_PATH\/local.rules/a include rules/sqli.rules' /etc/snort/snort.conf #untuk menambahkan rule file sqli
-sed -i '/include $RULE_PATH/local.rules/a include rules/xss.rules' /etc/snort/snort.conf #untuk menambahkan rule file xss
-sed -i '/include $RULE_PATH/local.rules/a include rules/ssh.rules' /etc/snort/snort.conf #untuk menambahkan rule file ssh
+sed -i '/include $RULE_PATH\/local.rules/a include rules/xss.rules' /etc/snort/snort.conf #untuk menambahkan rule file xss
+sed -i '/include $RULE_PATH\/local.rules/a include rules/ssh.rules' /etc/snort/snort.conf #untuk menambahkan rule file ssh
 sed -i '511,512 s/^/#/' /etc/snort/snort.conf #comment whitelisting dan blacklisting
 sed -i '546 s/^/#/' /etc/snort/snort.conf #comment baris untuk local.rules
 sed -i '550,653 s/^/#/' /etc/snort/snort.conf #comment banyak baris rules
