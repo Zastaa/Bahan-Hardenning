@@ -15,7 +15,7 @@ sed -i '/include $RULE_PATH\/local.rules/a include rules/xss.rules' /etc/snort/s
 sed -i '/include $RULE_PATH\/local.rules/a include rules/ssh.rules' /etc/snort/snort.conf #untuk menambahkan rule file ssh
 sed -i '511,512 s/^/#/' /etc/snort/snort.conf #comment whitelisting dan blacklisting
 sed -i '546 s/^/#/' /etc/snort/snort.conf #comment baris untuk local.rules
-sed -i '550,653 s/^/#/' /etc/snort/snort.conf #comment banyak baris rules
+sed -i '551,654 s/^/#/' /etc/snort/snort.conf #comment banyak baris rules
 
 cat << ruleSqli > /etc/snort/rules/sqli.rules
 alert tcp any any -> any 80 (msg: "Error Based SQL Injection Detected"; content: "%27" ; sid:100000011; )
