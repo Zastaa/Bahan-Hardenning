@@ -13,9 +13,9 @@ mkdir /usr/local/lib/snort_dynamicrules
 sed -i '/include $RULE_PATH/local.rules/a\include rules/sqli.rules' /etc/snort/snort.conf #untuk menambahkan rule file sqli
 sed -i '/include $RULE_PATH/local.rules/a\include rules/xss.rules' /etc/snort/snort.conf #untuk menambahkan rule file xss
 sed -i '/include $RULE_PATH/local.rules/a\include rules/ssh.rules' /etc/snort/snort.conf #untuk menambahkan rule file ssh
-sed -i '428,429 s/^/#/' /etc/snort/snort.conf #comment whitelisting dan blacklisting
-sed -i '454 s/^/#/' /etc/snort/snort.conf #comment baris untuk local.rules
-sed -i '458,561 s/^/#/' /etc/snort/snort.conf #comment banyak baris rules
+sed -i '511,512 s/^/#/' /etc/snort/snort.conf #comment whitelisting dan blacklisting
+sed -i '546 s/^/#/' /etc/snort/snort.conf #comment baris untuk local.rules
+sed -i '548,651 s/^/#/' /etc/snort/snort.conf #comment banyak baris rules
 
 cat << ruleSqli > /etc/snort/rules/sqli.rules
 alert tcp any any -> any 80 (msg: "Error Based SQL Injection Detected"; content: "%27" ; sid:100000011; )
