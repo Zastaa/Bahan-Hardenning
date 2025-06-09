@@ -1,0 +1,64 @@
+- name: Install and setup IDS Snort
+  hosts: localhost
+  become: yes
+  connection: local
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Snort package
+      apt:
+        name: snort
+        state: present
+
+    - name: Copy sample Snort configuration file
+      copy:
+        src: /etc/snort/snort.conf
+        dest: /etc/snort/snort.conf.bak
+        remote_src: yes
+
+    - name: Comment all include $RULE_PATH lines in snort.conf
+      replace:
+        path: /etc/snort/snort.conf
+        regexp: '^(include\s+\$RULE_PATH.*)'
+        replace: '#\1'
+
+    - name: Ensure custom rules are included in snort.conf
+      lineinfile:
+        path: /etc/snort/snort.conf
+        line: "include $RULE_PATH/{{ item }}"
+        insertafter: EOF
+        state: present
+      loop:
+        - sqli.rules
+        - xss.rules
+        - ssh.rules
+
+    - name: Create sqli.rules file
+      copy:
+        dest: /etc/snort/rules/sqli.rules
+        content: |
+          alert tcp any any -> any 80 (msg: "Error Based SQL Injection Detected"; content: "%27" ; sid:100000011; )
+          alert tcp any any -> any 80 (msg: "Error Based SQL Injection Detected"; content: "%22" ; sid:100000012; )
+          alert tcp any any -> any 80 (msg: "AND SQL Injection Detected"; content: "and" ; nocase; sid:100000060; )
+          alert tcp any any -> any 80 (msg: "OR SQL Injection Detected"; content: "or" ; http_uri; nocase; sid:100000061; )
+
+    - name: Create xss.rules file
+      copy:
+        dest: /etc/snort/rules/xss.rules
+        content: |
+          alert tcp any any -> any 80 (msg: "XSS attack - Detected <script></script>"; content: "<script>"; http_uri; content: "</script>"; http_uri; sid: 10000301; rev:1;)
+
+    - name: Create ssh.rules file
+      copy:
+        dest: /etc/snort/rules/ssh.rules
+        content: |
+          alert tcp any any -> any 22 (msg: "SSH Bruteforce Attack Detected"; flags: S+;  threshold: type both, track by_src, count 15, seconds 5; sid:10000404; rev:1;)
+
+    - name: Ensure Snort is running
+      service:
+        name: snort
+        state: started
+        enabled: yes

@@ -1,0 +1,34 @@
+- name: Add multiple users and set plaintext password
+  hosts: localhost
+  become: yes
+  connection: local
+
+  vars:
+    users:
+      - user1
+      - user2
+      - user3
+    deactive_users:
+      - user2
+      - user3
+    plain_password: "123"
+
+  tasks:
+    - name: Create each user
+      user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        state: present
+        create_home: yes
+      loop: "{{ users }}"
+
+    - name: Set password for each user
+      shell: echo "{{ item }}:{{ plain_password }}" | chpasswd
+      loop: "{{ users }}"
+
+    - name: Nonactive each user
+      shell: |
+        usermod -L "{{ item }}"
+        usermod -s /usr/sbin/nologin "{{ item }}"
+        passwd -l "{{ item }}"
+      loop: "{{ deactive_users }}"
