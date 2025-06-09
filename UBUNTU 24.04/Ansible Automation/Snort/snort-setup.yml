@@ -62,3 +62,8 @@
         name: snort
         state: started
         enabled: yes
+
+    - name: Restart Snort service
+      service:
+        name: snort
+        state: restarted
