@@ -1,0 +1,22 @@
+- name: Setup NAT and Setup forwarding port
+  hosts: localhost
+  become: yes
+  connection: local
+
+  vars:
+    internet: enp0s3
+    internal: enp0s8
+
+  tasks:
+    - name: UnComment forwarding sysctl.conf
+      replace:
+        path: /etc/sysctl.conf
+        regexp: '^(#net.ipv4.ip_forward=1.*)'
+        replace: 'net.ipv4.ip_forward=1'
+
+    - name: Nat and Forwarding
+      shell: |
+          iptables -t nat -A POSTROUTING -o "{{ internet }}" -j MASQUERADE;
+          iptables -t nat -A PREROUTING -i "{{ internet }}" -p tcp --dport 8080 -j DNAT --to 200.200.200.2:80;
+          iptables -t nat -A PREROUTING -i "{{ internet }}" -p tcp --dport 2222 -j DNAT --to 200.200.200.2:22;
+          iptables -t nat -A PREROUTING -i "{{ internet }}" -p udp --dport 1194 -j DNAT --to 200.200.200.2:1194
